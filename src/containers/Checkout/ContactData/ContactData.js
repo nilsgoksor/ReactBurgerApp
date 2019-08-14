@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import axios from "../../../axios-orders";
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -13,10 +15,10 @@ class ContactData extends Component {
         elementConfig: { type: "text", placeholder: "Your name" },
         value: "",
         validation: {
-          required: true,
+          required: true
         },
         valid: false,
-        touched: false,
+        touched: false
       },
       address: {
         elementType: "input",
@@ -25,30 +27,30 @@ class ContactData extends Component {
         validation: {
           required: true,
           minLength: 3,
-          maxLength: 15,
+          maxLength: 15
         },
         valid: false,
-        touched: false,
+        touched: false
       },
       country: {
         elementType: "input",
         elementConfig: { type: "text", placeholder: "Your nationality" },
         value: "",
         validation: {
-          required: true,
+          required: true
         },
         valid: false,
-        touched: false,
+        touched: false
       },
       email: {
         elementType: "input",
         elementConfig: { type: "email", placeholder: "Your email" },
         value: "",
         validation: {
-          required: true,
+          required: true
         },
         valid: false,
-        touched: false,
+        touched: false
       },
       deliveryMethod: {
         elementType: "select",
@@ -56,16 +58,16 @@ class ContactData extends Component {
           options: [
             { value: "standard", displayValue: "Standard" },
             { value: "fastest", displayValue: "Fastest" },
-            { value: "cheapest", displayValue: "Cheapest" },
-          ],
+            { value: "cheapest", displayValue: "Cheapest" }
+          ]
         },
         value: "standard",
         validation: {},
-        valid: true,
-      },
+        valid: true
+      }
     },
     formIsValid: false,
-    loading: false,
+    loading: false
   };
   orderHandler = event => {
     event.preventDefault();
@@ -77,9 +79,9 @@ class ContactData extends Component {
       ].value;
     }
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       price: this.props.price,
-      orderData: formData,
+      orderData: formData
     };
     axios
       .post("/orders.json", order)
@@ -160,4 +162,12 @@ class ContactData extends Component {
     );
   }
 }
-export default ContactData;
+
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);
