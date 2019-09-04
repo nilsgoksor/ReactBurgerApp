@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Aux from "../../hoc/Aux/Aux";
 import Burger from "../../components/Burger/Burger";
@@ -14,6 +14,7 @@ import axios from "../../axios-orders";
 const burgerBuilder = props => {
   const [purchasing, setPurchasing] = useState(false);
 
+  const dispatch = useDispatch();
   const ings = useSelector(state => {
     return state.burgerBuilder.ingredients;
   });
@@ -24,10 +25,9 @@ const burgerBuilder = props => {
     return state.burgerBuilder.error;
   });
   const isAuthenticated = useSelector(state => {
-    return state.burgerBuilder.auth.token !== null;
+    return state.auth.token !== null;
   });
 
-  const dispatch = useDispatch();
   const onIngredientAdded = ingName => dispatch(actions.addIngredient(ingName));
   const onIngredientRemoved = ingName =>
     dispatch(actions.removeIngredient(ingName));
@@ -113,4 +113,4 @@ const burgerBuilder = props => {
     </Aux>
   );
 };
-export default connect(withErrorHandler(burgerBuilder, axios));
+export default withErrorHandler(burgerBuilder, axios);
